@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Optimizer</string>
+    <string name="action_settings">Settings</string>
+    <string name="add_string">Add</string>
+    <string name="progress_string">Progress</string>
+    <string name="reset_string">Reset</string>
+    <string name="remove_string">Remove</string>
+</resources>

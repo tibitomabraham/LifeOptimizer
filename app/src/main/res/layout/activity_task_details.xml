@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_item_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="tu_chemnitz.tibitometit.optimizer.TaskDetails">
+
+    <LinearLayout android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/imageview_bg"
+        android:layout_marginRight="5dip">
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        app:srcCompat="@drawable/not_imp_urg"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:outlineProvider="bounds"
+        android:id="@+id/ivTaskPic" />
+    </LinearLayout>L
+    <TextView
+        android:text="Task 1"
+        android:textSize="30dp"
+        android:maxWidth="250dp"
+        android:maxLines="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/thumbnail"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/tvTaskName"
+        android:textDirection="firstStrongLtr"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:text="Description"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:id="@+id/tvDescription"
+        android:layout_below="@+id/thumbnail"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="11dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:layout_alignTop="@+id/tvDescription"
+        android:maxWidth="250dp"
+        android:maxLines="2"
+        android:layout_alignParentEnd="true"
+        android:layout_alignEnd="@id/tvDescription"
+        android:id="@+id/mltDescription" />
+
+    <TextView
+        android:text="Deadline"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvDeadline"
+        android:layout_below="@+id/tvDescription"
+        android:layout_alignEnd="@+id/tvDescription"
+        android:layout_marginTop="60dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:layout_toEndOf="@+id/tvDeadline"
+        android:layout_below="@+id/mltDescription"
+        android:layout_marginLeft="55dp"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/etDate"
+        android:layout_marginTop="20dp"
+        android:text=""/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:ems="10"
+        android:layout_below="@+id/etDate"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/etTime" />
+
+    <TextView
+        android:text="Category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:id="@+id/tvCategory"
+        android:layout_below="@+id/tvDeadline"
+        android:layout_alignEnd="@+id/tvDescription"
+        android:layout_marginTop="55dp"/>
+
+    <RadioGroup
+        android:id="@+id/rgCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etTime"
+        android:layout_marginTop="10dp"
+        android:layout_alignStart="@+id/etTime"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:text="Imp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbtnICategory"
+            android:checked="true"
+            android:layout_margin="2dp"/>
+
+        <RadioButton
+                android:text="Not Imp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:id="@+id/rbtnNICategory"
+                android:layout_margin="2dp"/>
+    </RadioGroup>
+
+
+
+    <TextView
+        android:text="Completed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:id="@+id/tvStatus"
+        android:layout_below="@+id/tvCategory"
+        android:layout_alignEnd="@+id/tvDescription"
+        android:layout_marginTop="20dp" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rgCategory"
+        android:layout_alignStart="@+id/rgCategory"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:id="@+id/rgStatus">
+        <RadioButton
+            android:text="Yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbtnStatusY"
+            android:checked="false"
+            android:layout_margin="2dp"/>
+
+        <RadioButton
+            android:text="No"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbtnStatusN"
+            android:checked="true"
+            android:layout_margin="2dp"/>
+    </RadioGroup>
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:showDividers="middle"
+    android:layout_below="@+id/rgStatus"
+    android:layout_alignStart="@+id/mltDescription"
+    android:layout_marginTop="10dp">
+    <Button
+        android:text="Update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnUpdate"
+        android:padding="2dp"/>
+
+    <Button
+        android:text="@string/remove_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnRemove"
+        android:padding="2dp"/>
+</LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_add_task"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="tu_chemnitz.tibitometit.optimizer.AddTask">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        app:srcCompat="@drawable/not_imp_urg"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/imageview_bg"
+        android:outlineProvider="bounds"
+        android:id="@+id/ivTaskPic" />
+
+    <EditText
+        android:text="Task 1"
+        android:textSize="30dp"
+        android:maxLines="2"
+        android:maxWidth="250dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/ivTaskPic"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/etTaskName"
+        android:textDirection="firstStrongLtr"
+        android:textStyle="bold"
+        />
+
+
+    <TextView
+        android:text="Description"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:id="@+id/tvDescription"
+        android:layout_below="@+id/ivTaskPic"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="11dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:maxWidth="250dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:layout_alignTop="@+id/tvDescription"
+        android:layout_alignParentEnd="true"
+        android:layout_alignEnd="@id/tvDescription"
+        android:id="@+id/mltDescription" />
+
+    <TextView
+        android:text="Deadline"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvDeadline"
+        android:layout_below="@+id/tvDescription"
+        android:layout_alignEnd="@+id/tvDescription"
+        android:layout_marginTop="60dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:layout_toEndOf="@+id/tvDeadline"
+        android:layout_marginLeft="60dp"
+        android:layout_below="@+id/mltDescription"
+        android:layout_alignParentLeft="@+id/tvDeadline"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/etDate"
+        android:layout_marginTop="30dp"
+        android:text=""/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:ems="10"
+        android:layout_below="@+id/etDate"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/etTime" />
+
+    <TextView
+        android:text="Category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:id="@+id/tvCategory"
+        android:layout_below="@+id/tvDeadline"
+        android:layout_alignEnd="@+id/tvDescription"
+        android:layout_marginTop="65dp"/>
+
+    <RadioGroup
+        android:id="@+id/rgCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etTime"
+        android:layout_alignStart="@+id/etTime"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+            <RadioButton
+                android:text="Imp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rbtnICategory"
+                android:checked="true"
+                android:layout_margin="2dp"/>
+
+            <RadioButton
+                android:text="Not Imp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:id="@+id/rbtnNICategory"
+                android:layout_margin="2dp"/>
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:showDividers="middle"
+        android:layout_below="@+id/rgCategory"
+        android:layout_alignStart="@+id/mltDescription"
+        android:layout_marginTop="10dp">
+        <Button
+            android:text="Add Task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnAdd"
+            android:padding="2dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

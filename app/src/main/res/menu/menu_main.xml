@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="tu_chemnitz.tibitometit.optimizer.MainActivity">
+    <item android:id="@+id/menu_add"
+        android:orderInCategory="1"
+        app:showAsAction="never"
+        android:title="@string/add_string"/>
+
+    <item android:id="@+id/menu_progress"
+        android:orderInCategory="2"
+        app:showAsAction="never"
+        android:title="@string/progress_string"/>
+
+    <item android:id="@+id/menu_reset"
+        android:orderInCategory="3"
+        app:showAsAction="never"
+        android:title="@string/reset_string"/>
+</menu>
