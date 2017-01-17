@@ -21,7 +21,7 @@ import java.util.Date;
 public class AddTask extends AppCompatActivity implements View.OnClickListener{
 
     private int mYear, mMonth, mDay, mHour, mMinute;
-    private EditText dateText,timeText,taskNameText,descText;
+    private EditText dateText,timeText,taskNameText,descText,errorMessage;
     private RadioButton impRB,notImpRB,completedRB,notCompletedRB;
     private Button addButton;
     private DBManager dbManager;
@@ -38,6 +38,7 @@ public class AddTask extends AppCompatActivity implements View.OnClickListener{
         descText= (EditText) findViewById( R.id.mltDescription);
         dateText = (EditText) findViewById( R.id.etDate);
         timeText = (EditText) findViewById( R.id.etTime);
+        errorMessage = (EditText) findViewById( R.id.etErrorMessage);
         addButton= (Button)findViewById(R.id.btnAdd);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -94,6 +95,16 @@ public class AddTask extends AppCompatActivity implements View.OnClickListener{
             timePickerDialog.show();
         }
         else if(v==addButton){
+            if(taskNameText.getText().toString().isEmpty()){
+                errorMessage.setText(R.string.error_taskname);
+                return;
+            }
+            if(descText.getText().toString().isEmpty()){
+                errorMessage.setText(R.string.error_description);
+                return;
+            }
+            errorMessage.setText("");
+
             Tasks tasks = new Tasks();
             tasks.set_name(taskNameText.getText().toString());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");

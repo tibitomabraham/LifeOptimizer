@@ -30,7 +30,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
     DBManager dbManager;
     Tasks task;
     private int mYear, mMonth, mDay, mHour, mMinute;
-    private EditText dateText,timeText,descText;
+    private EditText dateText,timeText,descText,errorMessage;
     private TextView taskNameText;
     private RadioButton impRB,notImpRB,completedRB,notCompletedRB;
     private LinearLayout imgLayout;
@@ -49,6 +49,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
         descText = (EditText) findViewById( R.id.mltDescription);
         dateText = (EditText) findViewById( R.id.etDate);
         timeText = (EditText) findViewById( R.id.etTime);
+        errorMessage = (EditText) findViewById( R.id.etErrorMessage);
         impRB = (RadioButton)findViewById(R.id.rbtnICategory);
         notImpRB = (RadioButton)findViewById(R.id.rbtnNICategory);
         updateButton = (Button)findViewById(R.id.btnUpdate);
@@ -169,6 +170,16 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
         }
 
         if (v == updateButton) {
+            if(taskNameText.getText().toString().isEmpty()){
+                errorMessage.setText(R.string.error_taskname);
+                return;
+            }
+            if(descText.getText().toString().isEmpty()){
+                errorMessage.setText(R.string.error_description);
+                return;
+            }
+            errorMessage.setText("");
+
             task.set_name(taskNameText.getText().toString());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             Date date=new Date();
@@ -191,7 +202,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
             if(completedRB.isChecked()){
                 task.set_status(true);
             }
-            else if(notImpRB.isChecked()){
+            else if(notCompletedRB.isChecked()){
                 task.set_status(false);
             }
             try {

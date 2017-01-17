@@ -11,23 +11,26 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by TibiTom on 28-12-2016.
+ * This class is the interface to the database
  */
 
 public class DBManager extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "Tasks.db";
     private static final String TABLE_Tasks = "Tasks";
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_Name = "_name";
-    public static final String COLUMN_Description = "_description";
-    public static final String COLUMN_Deadline = "_deadline";
-    public static final String COLUMN_Category = "_category";
-    public static final String COLUMN_Completed = "_status";
-    public static final String COLUMN_Cancelled = "_cancelled";
+    private static final String COLUMN_ID = "_id";
+    private static final String COLUMN_Name = "_name";
+    private static final String COLUMN_Description = "_description";
+    private static final String COLUMN_Deadline = "_deadline";
+    private static final String COLUMN_Category = "_category";
+    private static final String COLUMN_Completed = "_status";
+    private static final String COLUMN_Cancelled = "_cancelled";
 
+    /*Constructor*/
     public DBManager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
@@ -52,7 +55,113 @@ public class DBManager extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addTask(Tasks tasks) {
+    List<String> getTaskDates(){
+        SQLiteDatabase db = getWritableDatabase();
+        List<String> listDates = new ArrayList<>();
+        int index = 0;
+        SimpleDateFormat  datetimeFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String query = "SELECT DISTINCT "+COLUMN_Deadline+" FROM " + TABLE_Tasks + " WHERE NOT "+COLUMN_Cancelled;
+        Cursor cur = db.rawQuery(query, null);
+        cur.moveToFirst();
+
+        try {
+            while (!cur.isAfterLast()) {
+                if (cur.getString(0) != null){
+                    //Date datetime = datetimeFormat.parse(cur.getString(cur.getColumnIndex("Deadline")));
+                    Date datetime = datetimeFormat.parse(cur.getString(0));
+                    String strDate = dateFormat.format(datetime);
+                    listDates.add(strDate);
+                }
+                cur.moveToNext();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            //listTasks.add(null);
+        }
+        cur.close();
+        return listDates;
+    }
+    public DayTaskNumQuadType getCompletedITaskOnDates(String date){
+        SQLiteDatabase db = getWritableDatabase();
+        DayTaskNumQuadType taskNumQuad=null;
+        int index = 0;
+        SimpleDateFormat  datetimeFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String query = "SELECT "+COLUMN_Deadline+","+COLUMN_Name+","+COLUMN_Category+","+COLUMN_Completed+" FROM " + TABLE_Tasks + " WHERE NOT "+COLUMN_Cancelled;
+                //+" AND strftime('%Y-%m-%d',"+COLUMN_Deadline+",'%j' )=strftime('%Y-%m-%d','"+date+"','%j')";
+        Cursor cur = db.rawQuery(query, null);
+        cur.moveToFirst();
+        try {
+            taskNumQuad = new DayTaskNumQuadType();
+            while (!cur.isAfterLast()) {
+                Date deadline = datetimeFormat.parse(cur.getString(cur.getColumnIndex(COLUMN_Deadline)));
+                String strDeadline = dateFormat.format(deadline);
+                if (strDeadline.equals(date)) {
+                    if (cur.getString(cur.getColumnIndex(COLUMN_Name)) != null) {
+                        switch (cur.getString(cur.getColumnIndex(COLUMN_Category))) {
+                            case "I": {
+                                long dateDiff = deadline.getTime() - new Date().getTime();
+                                long dateDiffDays = TimeUnit.DAYS.convert(dateDiff, TimeUnit.MILLISECONDS);
+                    /*Criterion for urgent tasks - less than 2 days*/
+                                if (dateDiffDays <= 2 && dateDiffDays >= 0) {
+                                    taskNumQuad.iuTasks += 1;
+                                    if (Boolean.parseBoolean(cur.getString(cur.getColumnIndex(COLUMN_Completed)))) {
+                                        taskNumQuad.compIUTasks += 1;
+                                        taskNumQuad.compTotalTasks += 1;
+                                    }
+
+                                } else {
+                                    taskNumQuad.iTasks += 1;
+                                    if (Boolean.parseBoolean(cur.getString(cur.getColumnIndex(COLUMN_Completed)))) {
+                                        taskNumQuad.compITasks += 1;
+                                        taskNumQuad.compTotalTasks += 1;
+                                    }
+
+                                }
+                                break;
+                            }
+
+                            case "N": {
+                                long dateDiff = deadline.getTime() - new Date().getTime();
+                                long dateDiffDays = TimeUnit.DAYS.convert(dateDiff, TimeUnit.MILLISECONDS);
+                                if (dateDiffDays <= 2 && dateDiffDays >= 0) {
+                                    taskNumQuad.uTasks += 1;
+                                    if (Boolean.parseBoolean(cur.getString(cur.getColumnIndex(COLUMN_Completed)))) {
+                                        taskNumQuad.compUTasks += 1;
+                                        taskNumQuad.compTotalTasks += 1;
+                                    }
+
+                                } else {
+                                    taskNumQuad.nTasks += 1;
+                                    if (Boolean.parseBoolean(cur.getString(cur.getColumnIndex(COLUMN_Completed)))) {
+                                        taskNumQuad.compNTasks += 1;
+                                        taskNumQuad.compTotalTasks += 1;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                        taskNumQuad.totalTasks += 1;
+                        //Date date = dateFormat.parse(cur.getString(cur.getColumnIndex(COLUMN_Deadline)));
+                    }
+
+                }
+                cur.moveToNext();
+            }
+
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+            //listTasks.add(null);
+        }
+        cur.close();
+        return taskNumQuad;
+    }
+
+
+    /*Function to add a new task*/
+    void addTask(Tasks tasks) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_Name, tasks.get_name());
         values.put(COLUMN_Description, tasks.get_description());
@@ -65,7 +174,8 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void cancelTask(Tasks task) {
+    /*Function to cacel a task*/
+    void cancelTask(Tasks task) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_Cancelled, true);
         SQLiteDatabase db = getWritableDatabase();
@@ -73,7 +183,8 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
-    public int deleteTasks(){
+    /*Function to delete all task*/
+    int deleteTasks(){
         SQLiteDatabase db = getWritableDatabase();
         String deleteQuery = "DELETE FROM " + TABLE_Tasks + ";";
         try {
@@ -85,7 +196,8 @@ public class DBManager extends SQLiteOpenHelper {
         }
     }
 
-    public void updateTask(Tasks tasks) {
+    /*Function to update the details of tasks*/
+    void updateTask(Tasks tasks) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_Name, tasks.get_name());
         values.put(COLUMN_Description, tasks.get_description());
@@ -98,10 +210,10 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<Tasks> getFutureTasks() {
+    /*Function to retrieve all the future tasks*/
+    List<Tasks> getFutureTasks() {
         SQLiteDatabase db = getWritableDatabase();
-        List<Tasks> listTasks = new ArrayList<Tasks>();
-        ;
+        List<Tasks> listTasks = new ArrayList<>();
         int index = 0;
         SimpleDateFormat  dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
         //String query = "SELECT * FROM " + TABLE_Tasks + " WHERE "+ COLUMN_Deadline + " >= '"+dateFormat.format(new Date())+"' AND NOT "+COLUMN_Cancelled +" AND NOT "+ COLUMN_Completed;
@@ -137,13 +249,14 @@ public class DBManager extends SQLiteOpenHelper {
             e.printStackTrace();
             //listTasks.add(null);
         }
+        cur.close();
         return listTasks;
     }
 
-    public List<Tasks> getPastTasks() {
+    /*Function to get all the tasks that are already past*/
+    List<Tasks> getPastTasks() {
         SQLiteDatabase db = getWritableDatabase();
-        List<Tasks> listTasks = new ArrayList<Tasks>();
-        ;
+        List<Tasks> listTasks = new ArrayList<>();
         int index = 0;
         SimpleDateFormat  dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
         //String query = "SELECT * FROM " + TABLE_Tasks + " WHERE " + COLUMN_Deadline + "<'"+dateFormat.format(new Date())+"' AND NOT "+COLUMN_Cancelled;
@@ -173,17 +286,19 @@ public class DBManager extends SQLiteOpenHelper {
             }
             cur.moveToNext();
         }
+            cur.close();
         } catch (ParseException e) {
             e.printStackTrace();
             listTasks.add(null);
         }
+        cur.close();
         return listTasks;
     }
 
-    public List<Tasks> getAllTasks() {
+    /*Function to get all the tasks.*/
+    List<Tasks> getAllTasks() {
         SQLiteDatabase db = getWritableDatabase();
-        List<Tasks> listTasks = new ArrayList<Tasks>();
-        ;
+        List<Tasks> listTasks = new ArrayList<>();
         int index = 0;
         SimpleDateFormat  dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
         //String query = "SELECT * FROM " + TABLE_Tasks + " WHERE " + COLUMN_Deadline + "<'"+dateFormat.format(new Date())+"' AND NOT "+COLUMN_Cancelled;
@@ -216,10 +331,12 @@ public class DBManager extends SQLiteOpenHelper {
             e.printStackTrace();
             listTasks.add(null);
         }
+        cur.close();
         return listTasks;
     }
 
-    public Tasks getTaskDetails(int taskId) {
+    /*Function to get the details of a particular task*/
+    Tasks getTaskDetails(int taskId) {
         SQLiteDatabase db = getWritableDatabase();
         int index = 0;
         SimpleDateFormat  dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
@@ -248,8 +365,13 @@ public class DBManager extends SQLiteOpenHelper {
                     e.printStackTrace();
                     tasks=null;
                 }
+                catch (NullPointerException ne) {
+                    ne.printStackTrace();
+                    tasks=null;
+                }
             }
         }
+        cur.close();
         return tasks;
     }
 }

@@ -12,19 +12,19 @@
     tools:context="tu_chemnitz.tibitometit.optimizer.AddTask">
 
     <ImageView
+        android:contentDescription="@string/task_default"
         android:layout_width="150dp"
         android:layout_height="120dp"
         app:srcCompat="@drawable/not_imp_urg"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="@drawable/imageview_bg"
         android:outlineProvider="bounds"
         android:id="@+id/ivTaskPic" />
 
     <EditText
-        android:text="Task 1"
-        android:textSize="30dp"
+        android:hint="@string/task_default"
+        android:textSize="30sp"
         android:maxLines="2"
         android:maxWidth="250dp"
         android:layout_width="wrap_content"
@@ -40,8 +40,8 @@
 
 
     <TextView
-        android:text="Description"
-        android:textSize="20dp"
+        android:text="@string/task_desc_string"
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="33dp"
@@ -63,8 +63,8 @@
         android:id="@+id/mltDescription" />
 
     <TextView
-        android:text="Deadline"
-        android:textSize="20dp"
+        android:text="@string/task_deadline_string"
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvDeadline"
@@ -76,11 +76,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="date"
+        android:focusable="false"
+        android:clickable="true"
         android:ems="10"
         android:layout_toEndOf="@+id/tvDeadline"
-        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
         android:layout_below="@+id/mltDescription"
-        android:layout_alignParentLeft="@+id/tvDeadline"
+        android:layout_alignParentStart="@+id/tvDeadline"
         android:layout_alignParentEnd="true"
         android:id="@+id/etDate"
         android:layout_marginTop="30dp"
@@ -91,15 +93,17 @@
         android:layout_height="wrap_content"
         android:inputType="time"
         android:ems="10"
+        android:focusable="false"
+        android:clickable="true"
         android:layout_below="@+id/etDate"
         android:layout_alignParentEnd="true"
         android:id="@+id/etTime" />
 
     <TextView
-        android:text="Category"
+        android:text="@string/task_category_string"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:id="@+id/tvCategory"
         android:layout_below="@+id/tvDeadline"
         android:layout_alignEnd="@+id/tvDescription"
@@ -114,7 +118,7 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
             <RadioButton
-                android:text="Imp"
+                android:text="@string/task_important_string"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/rbtnICategory"
@@ -122,7 +126,7 @@
                 android:layout_margin="2dp"/>
 
             <RadioButton
-                android:text="Not Imp"
+                android:text="@string/task_not_important_string"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
@@ -139,12 +143,23 @@
         android:layout_alignStart="@+id/mltDescription"
         android:layout_marginTop="10dp">
         <Button
-            android:text="Add Task"
+            android:text="@string/add_string"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnAdd"
             android:padding="2dp"/>
-
     </LinearLayout>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:text=""
+        android:textColor="@color/error_color"
+        android:ems="10"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/rgCategory"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/etErrorMessage" />
 
 </RelativeLayout>

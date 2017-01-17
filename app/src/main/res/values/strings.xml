@@ -1,8 +1,23 @@
 <resources>
-    <string name="app_name">Optimizer</string>
+    <string name="app_name">Life Optimizer</string>
     <string name="action_settings">Settings</string>
+    <string name="task_desc_string">Description</string>
+    <string name="task_deadline_string">Deadline</string>
+    <string name="task_category_string">Category</string>
+    <string name="task_important_string">Imp</string>
+    <string name="task_not_important_string">Not Imp</string>
+    <string name="task_completed_string">Completed</string>
+    <string name="update_string">Update</string>
+    <string name="remove_string">Remove</string>
     <string name="add_string">Add</string>
+    <string name="yes_string">Yes</string>
+    <string name="no_string">No</string>
+    <string name="task_default">Task 1</string>
+    <string name="task_string">Task</string>
     <string name="progress_string">Progress</string>
     <string name="reset_string">Reset</string>
-    <string name="remove_string">Remove</string>
+    <string name="error_taskname">Please enter Taskname</string>
+    <string name="error_description">Please enter Task Description</string>
+
+
 </resources>

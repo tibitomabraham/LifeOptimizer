@@ -12,11 +12,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="3dip"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:background="@drawable/img_bg"
-        android:layout_marginRight="5dip">
+        android:layout_marginEnd="5dip"
+        android:orientation="horizontal">
 
         <ImageView
+            android:contentDescription="@string/task_string"
             android:id="@+id/list_image"
             android:layout_width="50dip"
             android:layout_height="50dip"
@@ -30,11 +32,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thumbnail"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:text="Task"
+        android:layout_toEndOf="@+id/thumbnail"
+        android:text="@string/task_string"
         android:textColor="#040404"
         android:typeface="sans"
-        android:textSize="15dip"
+        android:textSize="15sp"
         android:textStyle="bold"/>
 
     <!-- Task Description -->
@@ -44,22 +46,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/task"
         android:textColor="#343434"
-        android:textSize="10dip"
+        android:textSize="10sp"
         android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:text="Task Description" />
+        android:layout_toEndOf="@+id/thumbnail"
+        android:text="@string/task_desc_string" />
 
     <!-- Deadline -->
     <TextView
         android:id="@+id/datetime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/task"
-        android:gravity="right"
-        android:text="29/12/2016 17:00"
-        android:layout_marginRight="5dip"
-        android:textSize="15dip"
+        android:gravity="end"
+        android:layout_marginEnd="5dip"
+        android:textSize="15sp"
         android:textColor="#10bcc9"
         android:textStyle="bold"/>
 
@@ -67,7 +68,7 @@
     <ImageView android:layout_width="20dp"
         android:layout_height="30dp"
         android:src="@drawable/arrowhead"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/thumbnail" />
 
 

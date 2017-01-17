@@ -26,17 +26,17 @@ import android.widget.TextView;
  * Created by TibiTom on 28-12-2016.
  */
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Activity activity;
     private static LayoutInflater inflater=null;
     private Context _context;
     private List<String> _listDataHeader; // header titles
-    // child data in format of header title, child title
+    // Format: Header title, Child title
     private HashMap<String, List<Tasks>> _listDataChild;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<Tasks>> listChildData) {
+    ExpandableListAdapter(Context context, List<String> listDataHeader,
+                          HashMap<String, List<Tasks>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
