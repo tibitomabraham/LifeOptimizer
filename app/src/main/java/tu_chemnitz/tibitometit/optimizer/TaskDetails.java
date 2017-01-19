@@ -142,7 +142,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                                 public void onDateSet(DatePicker view, int year,
                                                       int monthOfYear, int dayOfMonth) {
 
-                                    dateText.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                    dateText.setText(year+ "-" + (monthOfYear + 1) + "-" + dayOfMonth );
 
                                 }
                             }, mYear, mMonth, mDay);
