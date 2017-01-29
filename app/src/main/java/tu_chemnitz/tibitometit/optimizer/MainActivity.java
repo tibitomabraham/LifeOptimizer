@@ -2,7 +2,6 @@ package tu_chemnitz.tibitometit.optimizer;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -21,6 +21,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                Toast.makeText(
+                /*Toast.makeText(
                         getApplicationContext(),
                         expandableListHeader.get(groupPosition)
                                 + " : "
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                                 expandableListHeader.get(groupPosition)).get(
                                 childPosition), Toast.LENGTH_SHORT)
                         .show();
+                        */
                 showDetails(parent, expandableListChild.get(
                         expandableListHeader.get(groupPosition)).get(
                         childPosition));
@@ -111,12 +113,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Set the ExpandableListView Group listener when expanded.
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+        /*expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
 
             @Override
             public void onGroupExpand(int groupPosition) {
                 Toast.makeText(getApplicationContext(),
-                        expandableListHeader.get(groupPosition) + " Expanded",
+                        expandableListHeader.get(groupPosition).substring(0,10) + " Expanded",
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -127,11 +129,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onGroupCollapse(int groupPosition) {
                 Toast.makeText(getApplicationContext(),
-                        expandableListHeader.get(groupPosition) + " Collapsed",
+                        expandableListHeader.get(groupPosition).substring(0,10) + " Collapsed",
                         Toast.LENGTH_SHORT).show();
             }
         });
-
+*/
       /*  final Handler handler = new Handler();
         handler.postDelayed( new Runnable() {
 
@@ -323,10 +325,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // Adding the processed data to the ExpandableListView Header and Child
-        expandableListHeader.add("Quadrant 1"+"_"+iuTasksList.size());
-        expandableListHeader.add("Quadrant 2"+"_"+iTasksList.size());
-        expandableListHeader.add("Quadrant 3"+"_"+uTasksList.size());
-        expandableListHeader.add("Quadrant 4"+"_"+nTasksList.size());
+
+        expandableListHeader.add("Imp & Urg(Q1)"+"_"+iuTasksList.size());
+        expandableListHeader.add("Imp & Not Urg(Q2)"+"_"+iTasksList.size());
+        expandableListHeader.add("Not Imp & Urg(Q3)"+"_"+uTasksList.size());
+        expandableListHeader.add("Not Imp & Not Urg(Q4)"+"_"+nTasksList.size());
         expandableListHeader.add("Past Tasks"+"_"+pastTasksList.size());
         expandableListHeader.add("All Tasks"+"_"+allTasksList.size());
 
@@ -342,9 +345,11 @@ public class MainActivity extends AppCompatActivity {
     public void insertSampleData(){
         Calendar cal = Calendar.getInstance();
         cal.clear();
-        cal.set(2017,1,1);
-        Date date;
-        SimpleDateFormat  dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        Date date = new Date();
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+        int currentYear=Integer.parseInt(yearFormat.format(date));
+        cal.set(currentYear,1,1);
+            SimpleDateFormat  dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
             date = cal.getTime();
             dbManager.addTask(new Tasks("Pay Phone bill", "O2 bill", date, "I", false));
             cal.add(Calendar.DATE,1);

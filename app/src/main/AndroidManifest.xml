@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".TaskDetails" />
         <activity android:name=".AddTask" />
-        <activity android:name=".ShowProgress"></activity>
+        <activity android:name=".ShowProgress"/>
     </application>
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>

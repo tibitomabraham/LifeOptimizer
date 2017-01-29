@@ -4,7 +4,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.icu.text.SimpleDateFormat;
 import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.text.SimpleDateFormat;
 
 import android.app.Activity;
 import android.content.Context;
@@ -122,8 +122,8 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView tvTaskName = (TextView) convertView.findViewById(R.id.task);
-
-        tvTaskName.setText(child.get_name());
+        String name = child.get_name();
+        tvTaskName.setText(name);
         TextView tvTaskDescription= (TextView)convertView.findViewById(R.id.taskDescription); // Task Description
         TextView tvDatetime = (TextView)convertView.findViewById(R.id.datetime); // Datetime
         ImageView ivThumb_image=(ImageView)convertView.findViewById(R.id.list_image); // thumb image

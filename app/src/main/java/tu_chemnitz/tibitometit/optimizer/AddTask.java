@@ -3,7 +3,6 @@ package tu_chemnitz.tibitometit.optimizer;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,9 +10,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,7 +22,8 @@ import java.util.Date;
 public class AddTask extends AppCompatActivity implements View.OnClickListener{
 
     private int mYear, mMonth, mDay, mHour, mMinute;
-    private EditText dateText,timeText,taskNameText,descText,errorMessage;
+    private EditText dateText,timeText,taskNameText,descText;
+    private TextView errorMessage;
     private RadioButton impRB,notImpRB,completedRB,notCompletedRB;
     private Button addButton;
     private DBManager dbManager;
@@ -38,13 +40,16 @@ public class AddTask extends AppCompatActivity implements View.OnClickListener{
         descText= (EditText) findViewById( R.id.mltDescription);
         dateText = (EditText) findViewById( R.id.etDate);
         timeText = (EditText) findViewById( R.id.etTime);
-        errorMessage = (EditText) findViewById( R.id.etErrorMessage);
+        errorMessage = (TextView) findViewById( R.id.tvErrorMessage);
         addButton= (Button)findViewById(R.id.btnAdd);
 
+        //DateFormat datetimeFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.GERMANY);
+        //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.GERMANY);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = dateFormat.format(new Date());
         dateText.setText(dateString);
         dateFormat.applyPattern("HH:mm");
+        //dateFormat= DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMANY);
         String timeString = dateFormat.format(new Date());
         timeText.setText(timeString);
         dateText.setOnClickListener(this);
@@ -107,6 +112,8 @@ public class AddTask extends AppCompatActivity implements View.OnClickListener{
 
             Tasks tasks = new Tasks();
             tasks.set_name(taskNameText.getText().toString());
+            //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.GERMANY);
+            //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.GERMANY);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
             Date date=new Date();
             try {

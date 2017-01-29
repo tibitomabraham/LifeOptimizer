@@ -2,8 +2,6 @@
 package tu_chemnitz.tibitometit.optimizer.chart_components;
 
 import android.content.Context;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.GregorianCalendar;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.components.MarkerView;
@@ -13,14 +11,13 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import tu_chemnitz.tibitometit.optimizer.DBManager;
-import tu_chemnitz.tibitometit.optimizer.DayTaskNumQuadType;
 import tu_chemnitz.tibitometit.optimizer.R;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Custom implementation of the MarkerView.
@@ -47,28 +44,8 @@ public class XYMarkerView extends MarkerView {
     // content (user-interface)
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        //GregorianCalendar  cal = new GregorianCalendar(2017, 1, 1);
-        Calendar cal = Calendar.getInstance();
-        cal.clear();
-        cal.set(2017,0,1);
-        cal.add(Calendar.DATE,(int)e.getX());
-        Date date = cal.getTime();
-        SimpleDateFormat  datetimeFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            DayTaskNumQuadType dayTaskNumQuadType = dbManager.getCompletedITaskOnDates(dateFormat.format(datetimeFormat.parse(date.toString())));
-            int percentIUTasks,percentITasks,percentUTasks,percentNTasks;
-            if(dayTaskNumQuadType!=null) {
-                tvContent.setText("x: " + xAxisValueFormatter.getFormattedValue(e.getX(), null) + ", y: " + format.format(e.getY()) + " Q1:" + (dayTaskNumQuadType.getCompIUTasks() * 100 / (0 == dayTaskNumQuadType.getIuTasks() ? 1 : dayTaskNumQuadType.getIuTasks()))
-                + "Q2: " + (dayTaskNumQuadType.getCompITasks() * 100 / (0 == dayTaskNumQuadType.getiTasks() ? 1 : dayTaskNumQuadType.getiTasks()))
-                + "Q3: " + (dayTaskNumQuadType.getCompUTasks() * 100 / (0 == dayTaskNumQuadType.getuTasks() ? 1 : dayTaskNumQuadType.getuTasks()))
-                + "Q4: " + (dayTaskNumQuadType.getCompNTasks() * 100 / (0 == dayTaskNumQuadType.getnTasks() ? 1 : dayTaskNumQuadType.getnTasks())));
-}
-            super.refreshContent(e, highlight);
-        }
-        catch (ParseException pe) {
-            pe.printStackTrace();
-        }
+        tvContent.setText("x: " + xAxisValueFormatter.getFormattedValue(e.getX(), null) + ", y: " + format.format(e.getY()));
+        super.refreshContent(e, highlight);
     }
 
     @Override

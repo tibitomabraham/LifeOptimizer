@@ -5,12 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.content.ContentValues;
-import android.icu.text.SimpleDateFormat;
 
+import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -59,6 +60,8 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         List<String> listDates = new ArrayList<>();
         int index = 0;
+        //DateFormat datetimeFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.GERMANY);
+        //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.GERMANY);
         SimpleDateFormat  datetimeFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
         SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String query = "SELECT DISTINCT "+COLUMN_Deadline+" FROM " + TABLE_Tasks + " WHERE NOT "+COLUMN_Cancelled;
@@ -86,10 +89,11 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         DayTaskNumQuadType taskNumQuad=null;
         int index = 0;
+        //DateFormat datetimeFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.GERMANY);
+        //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.GERMANY);
         SimpleDateFormat  datetimeFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
         SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String query = "SELECT "+COLUMN_Deadline+","+COLUMN_Name+","+COLUMN_Category+","+COLUMN_Completed+" FROM " + TABLE_Tasks + " WHERE NOT "+COLUMN_Cancelled;
-                //+" AND strftime('%Y-%m-%d',"+COLUMN_Deadline+",'%j' )=strftime('%Y-%m-%d','"+date+"','%j')";
         Cursor cur = db.rawQuery(query, null);
         cur.moveToFirst();
         try {
@@ -99,61 +103,18 @@ public class DBManager extends SQLiteOpenHelper {
                 String strDeadline = dateFormat.format(deadline);
                 if (strDeadline.equals(date)) {
                     if (cur.getString(cur.getColumnIndex(COLUMN_Name)) != null) {
-                        switch (cur.getString(cur.getColumnIndex(COLUMN_Category))) {
-                            case "I": {
-                                long dateDiff = deadline.getTime() - new Date().getTime();
-                                long dateDiffDays = TimeUnit.DAYS.convert(dateDiff, TimeUnit.MILLISECONDS);
-                    /*Criterion for urgent tasks - less than 2 days*/
-                                if (dateDiffDays <= 2 && dateDiffDays >= 0) {
-                                    taskNumQuad.iuTasks += 1;
-                                    if (Boolean.parseBoolean(cur.getString(cur.getColumnIndex(COLUMN_Completed)))) {
-                                        taskNumQuad.compIUTasks += 1;
-                                        taskNumQuad.compTotalTasks += 1;
-                                    }
-
-                                } else {
-                                    taskNumQuad.iTasks += 1;
-                                    if (Boolean.parseBoolean(cur.getString(cur.getColumnIndex(COLUMN_Completed)))) {
-                                        taskNumQuad.compITasks += 1;
-                                        taskNumQuad.compTotalTasks += 1;
-                                    }
-
-                                }
-                                break;
-                            }
-
-                            case "N": {
-                                long dateDiff = deadline.getTime() - new Date().getTime();
-                                long dateDiffDays = TimeUnit.DAYS.convert(dateDiff, TimeUnit.MILLISECONDS);
-                                if (dateDiffDays <= 2 && dateDiffDays >= 0) {
-                                    taskNumQuad.uTasks += 1;
-                                    if (Boolean.parseBoolean(cur.getString(cur.getColumnIndex(COLUMN_Completed)))) {
-                                        taskNumQuad.compUTasks += 1;
-                                        taskNumQuad.compTotalTasks += 1;
-                                    }
-
-                                } else {
-                                    taskNumQuad.nTasks += 1;
-                                    if (Boolean.parseBoolean(cur.getString(cur.getColumnIndex(COLUMN_Completed)))) {
-                                        taskNumQuad.compNTasks += 1;
-                                        taskNumQuad.compTotalTasks += 1;
-                                    }
-                                }
-                                break;
-                            }
+                        if (Boolean.parseBoolean(cur.getString(cur.getColumnIndex(COLUMN_Completed)))) {
+                            taskNumQuad.compTotalTasks += 1;
                         }
-                        taskNumQuad.totalTasks += 1;
-                        //Date date = dateFormat.parse(cur.getString(cur.getColumnIndex(COLUMN_Deadline)));
                     }
-
-                }
+                    taskNumQuad.totalTasks += 1;
+                    }
                 cur.moveToNext();
-            }
+                }
 
-        }
+            }
         catch (ParseException e) {
             e.printStackTrace();
-            //listTasks.add(null);
         }
         cur.close();
         return taskNumQuad;
@@ -215,6 +176,7 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         List<Tasks> listTasks = new ArrayList<>();
         int index = 0;
+        //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.GERMANY);
         SimpleDateFormat  dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
         //String query = "SELECT * FROM " + TABLE_Tasks + " WHERE "+ COLUMN_Deadline + " >= '"+dateFormat.format(new Date())+"' AND NOT "+COLUMN_Cancelled +" AND NOT "+ COLUMN_Completed;
         String query = "SELECT * FROM " + TABLE_Tasks + " WHERE NOT "+COLUMN_Cancelled +" AND NOT "+ COLUMN_Completed;
@@ -258,27 +220,27 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         List<Tasks> listTasks = new ArrayList<>();
         int index = 0;
-        SimpleDateFormat  dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-        //String query = "SELECT * FROM " + TABLE_Tasks + " WHERE " + COLUMN_Deadline + "<'"+dateFormat.format(new Date())+"' AND NOT "+COLUMN_Cancelled;
+        //DateFormat datetimeFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.GERMANY);
+        //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.GERMANY);
+        SimpleDateFormat  datetimeFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        //String query = "SELECT * FROM " + TABLE_Tasks + " WHERE date(" + COLUMN_Deadline + ")<date('now') AND NOT "+COLUMN_Cancelled;
+        //String query = "SELECT * FROM " + TABLE_Tasks + " WHERE date(" + COLUMN_Deadline + ")<'"+dateFormat.format(new Date())+"' AND NOT "+COLUMN_Cancelled;
         String query = "SELECT * FROM " + TABLE_Tasks + " WHERE NOT "+COLUMN_Cancelled;
         Cursor cur = db.rawQuery(query, null);
         Date todaysDate = new Date();
+
         cur.moveToFirst();
         try {
         while (!cur.isAfterLast()) {
+            Date deadline = datetimeFormat.parse(cur.getString(cur.getColumnIndex(COLUMN_Deadline)));
             if (cur.getString(cur.getColumnIndex(COLUMN_Name)) != null &&
-                    dateFormat.parse(cur.getString(cur.getColumnIndex(COLUMN_Deadline))).getTime()<todaysDate.getTime()) {
+                    deadline.getTime()<todaysDate.getTime()) {
                     Tasks tasks = new Tasks();
                     tasks.set_id(Integer.parseInt(cur.getString(cur.getColumnIndex(COLUMN_ID))));
                     tasks.set_name(cur.getString(cur.getColumnIndex(COLUMN_Name)));
                     tasks.set_description(cur.getString(cur.getColumnIndex(COLUMN_Description)));
-                    Date date = dateFormat.parse(cur.getString(cur.getColumnIndex(COLUMN_Deadline)));
-                    //Calendar currentDate = Calendar.getInstance();
-                    //dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.GERMANY);
-                    //date = dateFormat.parse(dateFormat.parse(date));
-                    //String dateNow = dateFormat.format(currentDate.getTime());
-                    //Date currDate =  dateFormat.parse(dateNow);
-                    tasks.set_deadline(date);
+                    tasks.set_deadline(deadline);
                     tasks.set_status(Boolean.parseBoolean(cur.getString(cur.getColumnIndex(COLUMN_Completed))));
                     tasks.set_category(cur.getString(cur.getColumnIndex(COLUMN_Category)));
                     tasks.set_cancelled(Boolean.parseBoolean(cur.getString(cur.getColumnIndex(COLUMN_Cancelled))));
@@ -289,7 +251,7 @@ public class DBManager extends SQLiteOpenHelper {
             cur.close();
         } catch (ParseException e) {
             e.printStackTrace();
-            listTasks.add(null);
+            //listTasks.add(null);
         }
         cur.close();
         return listTasks;
@@ -300,6 +262,7 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         List<Tasks> listTasks = new ArrayList<>();
         int index = 0;
+        //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.GERMANY);
         SimpleDateFormat  dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
         //String query = "SELECT * FROM " + TABLE_Tasks + " WHERE " + COLUMN_Deadline + "<'"+dateFormat.format(new Date())+"' AND NOT "+COLUMN_Cancelled;
         String query = "SELECT * FROM " + TABLE_Tasks + " WHERE NOT "+COLUMN_Cancelled;
@@ -329,7 +292,7 @@ public class DBManager extends SQLiteOpenHelper {
             }
         } catch (ParseException e) {
             e.printStackTrace();
-            listTasks.add(null);
+            //listTasks.add(null);
         }
         cur.close();
         return listTasks;
@@ -339,6 +302,8 @@ public class DBManager extends SQLiteOpenHelper {
     Tasks getTaskDetails(int taskId) {
         SQLiteDatabase db = getWritableDatabase();
         int index = 0;
+        //DateFormat datetimeFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.GERMANY);
+        //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.GERMANY);
         SimpleDateFormat  dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
         String query = "SELECT * FROM " + TABLE_Tasks + " WHERE " + COLUMN_ID + "="+taskId+";";
         Cursor cur = db.rawQuery(query, null);

@@ -5,22 +5,27 @@
     android:id="@+id/activity_add_task"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="tu_chemnitz.tibitometit.optimizer.AddTask">
 
-    <ImageView
-        android:contentDescription="@string/task_default"
-        android:layout_width="150dp"
-        android:layout_height="120dp"
-        app:srcCompat="@drawable/not_imp_urg"
-        android:layout_alignParentTop="true"
+    <LinearLayout android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:layout_marginTop="10dip"
+        android:layout_marginStart="10dip"
+        android:layout_marginEnd="5dip"
         android:layout_alignParentStart="true"
         android:background="@drawable/imageview_bg"
-        android:outlineProvider="bounds"
-        android:id="@+id/ivTaskPic" />
+        >
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:contentDescription="@string/task_default"
+            app:srcCompat="@drawable/not_imp_urg"
+            android:outlineProvider="bounds"
+            android:id="@+id/ivTaskPic" />
+    </LinearLayout>
 
     <EditText
         android:hint="@string/task_default"
@@ -30,11 +35,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/ivTaskPic"
+        android:layout_toEndOf="@+id/thumbnail"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:id="@+id/etTaskName"
-        android:textDirection="firstStrongLtr"
         android:textStyle="bold"
         />
 
@@ -46,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="33dp"
         android:id="@+id/tvDescription"
-        android:layout_below="@+id/ivTaskPic"
+        android:layout_below="@+id/thumbnail"
         android:layout_alignParentStart="true"
         android:layout_marginStart="11dp" />
 
@@ -79,10 +83,7 @@
         android:focusable="false"
         android:clickable="true"
         android:ems="10"
-        android:layout_toEndOf="@+id/tvDeadline"
-        android:layout_marginStart="60dp"
         android:layout_below="@+id/mltDescription"
-        android:layout_alignParentStart="@+id/tvDeadline"
         android:layout_alignParentEnd="true"
         android:id="@+id/etDate"
         android:layout_marginTop="30dp"
@@ -150,16 +151,15 @@
             android:padding="2dp"/>
     </LinearLayout>
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="text"
         android:text=""
         android:textColor="@color/error_color"
         android:ems="10"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/rgCategory"
+        android:id="@+id/tvErrorMessage"
         android:layout_centerHorizontal="true"
-        android:id="@+id/etErrorMessage" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="2dip"/>
 
 </RelativeLayout>

@@ -1,6 +1,5 @@
 package tu_chemnitz.tibitometit.optimizer;
 
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 
 
@@ -39,10 +38,13 @@ import tu_chemnitz.tibitometit.optimizer.chart_components.MyAxisValueFormatter;
 import tu_chemnitz.tibitometit.optimizer.chart_components.XYMarkerView;
 import  tu_chemnitz.tibitometit.optimizer.chart_components.DemoBase;
 
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class ShowProgress extends DemoBase  implements OnSeekBarChangeListener,
         OnChartValueSelectedListener {
@@ -88,7 +90,7 @@ public class ShowProgress extends DemoBase  implements OnSeekBarChangeListener,
         xAxis.setTypeface(mTfLight);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
-        xAxis.setLabelCount(7);
+        xAxis.setLabelCount(5);
         xAxis.setValueFormatter(xAxisFormatter);
 
         IAxisValueFormatter custom = new MyAxisValueFormatter();
@@ -286,7 +288,10 @@ public class ShowProgress extends DemoBase  implements OnSeekBarChangeListener,
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(yVals1, "The year 2017");
+            Date date = new Date();
+            SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+            int currentYear=Integer.parseInt(yearFormat.format(date));
+            set1 = new BarDataSet(yVals1, "The year "+currentYear);
             set1.setColors(ColorTemplate.MATERIAL_COLORS);
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();

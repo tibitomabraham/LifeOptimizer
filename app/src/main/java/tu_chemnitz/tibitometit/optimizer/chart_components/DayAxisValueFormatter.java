@@ -4,6 +4,10 @@ import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by philipp on 02/06/16.
  */
@@ -30,41 +34,16 @@ public class DayAxisValueFormatter implements IAxisValueFormatter
         int month = determineMonth(days);
         String monthName = mMonths[month % mMonths.length];
         String yearName = String.valueOf(year);
-
-        if (chart.getVisibleXRange() > 30 * 6) {
+        if (chart.getVisibleXRange() > 30 ) {
 
             return monthName + " " + yearName;
         } else {
+            Date date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+            int currentYear=Integer.parseInt(dateFormat.format(date));
+            int dayOfMonth = determineDayOfMonth(days, month + 12 * (year - currentYear));
 
-            int dayOfMonth = determineDayOfMonth(days, month + 12 * (year - 2017));
-
-            String appendix = "th";
-
-            switch (dayOfMonth) {
-                case 1:
-                    appendix = "st";
-                    break;
-                case 2:
-                    appendix = "nd";
-                    break;
-                case 3:
-                    appendix = "rd";
-                    break;
-                case 21:
-                    appendix = "st";
-                    break;
-                case 22:
-                    appendix = "nd";
-                    break;
-                case 23:
-                    appendix = "rd";
-                    break;
-                case 31:
-                    appendix = "st";
-                    break;
-            }
-
-            return dayOfMonth == 0 ? "" : dayOfMonth + appendix + " " + monthName;
+            return dayOfMonth == 0 ? "" : monthName+""+ dayOfMonth;
         }
     }
 

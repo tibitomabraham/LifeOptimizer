@@ -5,7 +5,6 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,14 +23,16 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import java.text.SimpleDateFormat;
 
 public class TaskDetails extends AppCompatActivity implements View.OnClickListener{
 
     DBManager dbManager;
     Tasks task;
     private int mYear, mMonth, mDay, mHour, mMinute;
-    private EditText dateText,timeText,descText,errorMessage;
-    private TextView taskNameText;
+    private EditText dateText,timeText,descText;
+    private TextView taskNameText,errorMessage;
+
     private RadioButton impRB,notImpRB,completedRB,notCompletedRB;
     private LinearLayout imgLayout;
     private Button updateButton, removeButton;
@@ -49,7 +50,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
         descText = (EditText) findViewById( R.id.mltDescription);
         dateText = (EditText) findViewById( R.id.etDate);
         timeText = (EditText) findViewById( R.id.etTime);
-        errorMessage = (EditText) findViewById( R.id.etErrorMessage);
+        errorMessage = (TextView) findViewById( R.id.tvErrorMessage);
         impRB = (RadioButton)findViewById(R.id.rbtnICategory);
         notImpRB = (RadioButton)findViewById(R.id.rbtnNICategory);
         updateButton = (Button)findViewById(R.id.btnUpdate);
@@ -61,10 +62,13 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
 
         taskNameText.setText(task.get_name());
         descText.setText(task.get_description());
+        //DateFormat datetimeFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.GERMANY);
+        //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.GERMANY);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = dateFormat.format(task.get_deadline());
         dateText.setText(dateString);
         dateFormat.applyPattern("HH:mm");
+        //dateFormat= DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMANY);
         String timeString = dateFormat.format(task.get_deadline());
         timeText.setText(timeString);
 
@@ -181,6 +185,8 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
             errorMessage.setText("");
 
             task.set_name(taskNameText.getText().toString());
+            //DateFormat datetimeFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.GERMANY);
+            //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.GERMANY);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             Date date=new Date();
             try {
