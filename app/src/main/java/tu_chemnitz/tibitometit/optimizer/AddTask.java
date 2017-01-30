@@ -114,7 +114,7 @@ public class AddTask extends AppCompatActivity implements View.OnClickListener{
             tasks.set_name(taskNameText.getText().toString());
             //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.GERMANY);
             //DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.GERMANY);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             Date date=new Date();
             try {
                  date= dateFormat.parse(dateText.getText().toString() + " " + timeText.getText().toString());
